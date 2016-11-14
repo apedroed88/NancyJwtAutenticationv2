@@ -25,10 +25,9 @@ namespace Nancy.Demo.Authentication.Stateless.Jwt
             var userRecord = Users.FirstOrDefault(u => u.UserName == username && u.PassWord == password);
 
             if (userRecord == null)
-            {
                 return null;
-            }
-            var payload = new JwtPayLoad(userRecord.UserName, userRecord.Role, DateTime.Now.AddDays(2));
+            
+            var payload = new JwtPayLoad(userRecord.UserName, userRecord.Role, DateTime.Now.AddMinutes(2));
 
             return Jose.JWT.Encode(payload, SecretKey, JwsAlgorithm.HS256);
         }
@@ -47,7 +46,8 @@ namespace Nancy.Demo.Authentication.Stateless.Jwt
                 return null;
 
             var claims = new GenericIdentity(token.UserName);
-            claims.AddClaim(new Claim(ClaimTypes.Role, token.Role));
+            claims.AddClaim(new Claim("Name", token.UserName));
+            claims.AddClaim(new Claim("Role", token.Role));
             return new ClaimsPrincipal(claims);
 
         }

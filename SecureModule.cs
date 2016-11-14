@@ -20,7 +20,7 @@ namespace Nancy.Demo.Authentication.Stateless.Jwt
                 return this.Response.AsJson(new
                 {
                     SecureContent = "Here is a secure content that you can only see if you provide a correct api key",
-                    
+                    Usuario = identity.Identity.Name
                 });
             });
 
